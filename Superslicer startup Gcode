@@ -1,0 +1,25 @@
+G90 ; use absolute coordinates
+M83 ; extruder relative mode
+M140 S[first_layer_bed_temperature] ; set final bed temp
+M104 S150 ; set temporary nozzle temp to prevent oozing during homing and auto bed leveling
+G4 S10 ; allow partial nozzle warmup
+M190 S[first_layer_bed_temperature] ; wait for bed temp to stabilise
+M207 F{ retract_speed[0] * 60} S[retract_length_0] Z[retract_lift_0]
+M208 F{ deretract_speed[0] * 60} S[retract_restart_extra_0]
+M140 S0 ; turn off bed for probing
+M104 S0 ; turn off nozzle for probing
+G28 ; home all axis
+G29 ; level bed
+M420 S1 ; use mesh
+G1 Z50 F240
+G1 X2 Y10 F3000
+M104 S{first_layer_temperature[initial_extruder]+extruder_temperature_offset[initial_extruder]} ; set final nozzle temp
+M190 S[first_layer_bed_temperature] ; wait for bed temp to stabilize
+M109 S{first_layer_temperature[initial_extruder]+extruder_temperature_offset[initial_extruder]} ; wait for nozzle temp to stabilize
+G1 Z0.28 F240
+G92 E0
+G1 Y140 E10 F1500 ; prime the nozzle
+G1 X2.3 F5000
+G92 E0
+G1 Y10 E10 F1200 ; prime the nozzle
+G92 E0
