@@ -1,0 +1,3 @@
+//Use to start prints for Klipper
+
+START_PRINT EXTRUDER_TEMP={first_layer_temperature[initial_extruder]} BED_TEMP=[first_layer_bed_temperature]
